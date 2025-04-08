@@ -1,41 +1,36 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 import os
 from datetime import datetime
 
-def generar_graficos(similitudes):
-    # Extraer los nombres de los documentos y los niveles de similitud
-    documentos = [f"{doc1} - {doc2}" for doc1, doc2, _ in similitudes]
-    scores = [sim * 100 for _, _, sim in similitudes]  # Convertir a porcentaje
+def generar_heatmap(similitudes):
+    # Extraer nombres únicos de documentos
+    nombres = sorted(set([doc for doc1, doc2, _ in similitudes for doc in (doc1, doc2)]))
+    n = len(nombres)
+    
+    # Crear una matriz de similitud inicializada en ceros
+    matriz = np.zeros((n, n))
 
-    # Definir una lista de colores para cada barra
-    colores = ['skyblue', 'lightgreen', 'salmon', 'gold', 'lightcoral', 'lightpink', 'lightyellow', 'lightblue']
-
-    # Configuración del gráfico
-    plt.figure(figsize=(10, 6))
-
-    # Creación del gráfico de barras horizontales con colores personalizados
-    plt.barh(documentos, scores, color=colores[:len(documentos)])  # Asegúrate de que haya suficientes colores
-
-    # Etiquetas y título
-    plt.xlabel('Nivel de Similitud (%)')
-    plt.title('Niveles de Similitud entre Documentos')
-
-    # Limitar el eje x de 0 a 100%
-    plt.xlim(0, 100)
-
-    # Añadir etiquetas de porcentaje en las barras
-    for i, score in enumerate(scores):
-        plt.text(score + 2, i, f'{score:.1f}%', va='center')
+    # Llenar la matriz con los valores de similitud
+    for doc1, doc2, score in similitudes:
+        i, j = nombres.index(doc1), nombres.index(doc2)
+        matriz[i, j] = matriz[j, i] = score * 100  # Simetría
 
     # Crear el directorio para guardar gráficos si no existe
     os.makedirs('resultados/graficos', exist_ok=True)
 
-    # Generar un nombre de archivo único basado en la fecha y hora actual
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f'resultados/graficos/similitudes_{timestamp}.png'
+    # Configurar el heatmap
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(matriz, xticklabels=nombres, yticklabels=nombres, annot=True, fmt=".1f", cmap="YlGnBu", cbar_kws={'label': 'Similitud (%)'})
+
+    plt.title("Mapa de Calor de Similitud entre Documentos")
+    plt.xticks(rotation=45, ha='right')
+    plt.yticks(rotation=0)
+    plt.tight_layout()
 
     # Guardar el gráfico
-    plt.tight_layout()  # Ajustar el diseño para que no se solapen elementos
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f'resultados/graficos/heatmap_similitudes_{timestamp}.png'
     plt.savefig(filename)
     plt.show()

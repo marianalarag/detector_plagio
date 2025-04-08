@@ -1,22 +1,124 @@
+
 # Detector de Plagio
 
-Este proyecto implementa un sistema de detección de plagio utilizando tablas hash y algoritmos de ordenamiento. 
+Este proyecto implementa un sistema de detección de plagio utilizando tablas hash, filtros de Bloom y algoritmos de ordenamiento. Su propósito es identificar similitudes entre documentos de texto y generar visualizaciones sobre los niveles de similitud.
+
+## Descripción General del Proyecto
+
+El sistema está diseñado para detectar similitudes entre documentos a partir de los n-gramas generados de cada texto. Los documentos se procesan mediante un conjunto de algoritmos y estructuras de datos eficientes como filtros de Bloom, tablas hash y un algoritmo de ordenamiento (Merge Sort). Finalmente, se presentan los resultados visualmente en gráficos de barras que muestran el porcentaje de similitud entre cada par de documentos.
 
 ## Estructura del Proyecto
-- documentos/: Contiene los trabajos estudiantiles en formato .txt.
-- src/: Código fuente modular.
-- tests/: Casos de prueba.
-- resultados/: Resultados generados por el sistema.
 
-## Cómo Ejecutar
-1. Coloca los documentos en la carpeta 'documentos/'.
-2. Ejecuta el archivo 'main.py'.
+```
+.
+├── documentos/           # Archivos .txt a analizar
+├── src/                  # Código fuente modular
+├── tests/                # Casos de prueba unitarios
+├── resultados/           # Resultados y visualizaciones generadas
+│   └── graficos/         # Gráficos de similitud entre documentos
+├── main.py               # Script principal del sistema
+└── README.md             # Documentación del proyecto
+```
 
+## Instrucciones de Instalación y Ejecución
 
+1. Clona este repositorio en tu máquina local:
 
+```bash
+git clone <url-del-repositorio>
+```
 
+2. Instala las dependencias necesarias:
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Coloca los archivos `.txt` que deseas analizar en la carpeta `documentos/`.
+
+4. Ejecuta el sistema desde la terminal:
+
+```bash
+python main.py
+```
+
+## Ejemplo de Uso
+
+1. Asegúrate de que la carpeta `documentos/` contenga varios archivos `.txt`.
+2. Ejecuta el sistema.
+3. Se generará una imagen en la carpeta `resultados/graficos/` con un gráfico de barras que representa los niveles de similitud entre los documentos procesados.
+
+## Módulos del Proyecto
+
+### BloomFilter
+
+Estructura de datos probabilística que permite verificar si un n-grama ha sido agregado previamente, optimizando la detección de duplicados.
+
+### generar_graficos
+
+Función que genera un gráfico de barras horizontales para visualizar el porcentaje de similitud entre pares de documentos, utilizando `matplotlib`.
+
+### HashTable
+
+Estructura que almacena los n-gramas extraídos de un documento junto con su frecuencia de aparición, utilizando diccionarios de Python.
+
+### cargar_documentos y tokenizar
+
+Funciones que:
+- Cargan el contenido de los archivos `.txt` desde una carpeta.
+- Tokenizan el texto limpio en n-gramas (por defecto, bigramas).
+
+### calcular_similitud
+
+Función que calcula la similitud entre dos documentos usando el índice de Jaccard basado en las claves de sus tablas hash.
+
+### merge_sort
+
+Algoritmo de ordenamiento que permite organizar las similitudes de mayor a menor o viceversa, de forma eficiente y personalizable.
+
+## Instrucciones para Replicar Resultados
+
+1. Agrega los archivos `.txt` en `documentos/`.
+2. Asegúrate de tener todas las dependencias instaladas.
+3. Ejecuta `main.py`.
+4. Verifica los resultados generados en `resultados/graficos/`.
+
+## Visualizaciones de los Resultados
+
+El sistema genera gráficos de barras que representan el porcentaje de similitud entre pares de documentos. Estos gráficos se guardan automáticamente con un timestamp en:
+
+```
+resultados/graficos/similitudes_<timestamp>.png
+```
+
+## Comandos de Prueba
+
+Este proyecto incluye pruebas unitarias para garantizar la fiabilidad del sistema. Ejecuta las pruebas con los siguientes comandos:
+
+```bash
 python -m pytest test/test_bloom_filter.py
 python -m pytest test/test_hash_table.py
 python -m pytest test/test_sorting.py
 python -m pytest test/test_similitud.py
 python -m pytest test/test_preprocesamiento.py
+```
+
+## Importaciones Usadas
+
+```python
+import os
+import re
+import matplotlib.pyplot as plt
+import numpy as np
+from datetime import datetime
+```
+
+## Historial de Commits y Colaboración
+
+Este proyecto fue desarrollado de forma colaborativa. El historial de commits refleja el progreso del desarrollo y la contribución activa del equipo en distintas etapas, incluyendo:
+
+- Implementación modular de estructuras de datos
+- Desarrollo de funciones de similitud
+- Pruebas automatizadas con `pytest`
+- Generación de visualizaciones con `matplotlib`
+- Documentación y mejora continua del sistema
