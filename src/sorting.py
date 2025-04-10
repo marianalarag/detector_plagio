@@ -28,4 +28,4 @@ def merge_sort(arr, key=lambda x: x, reverse=False):
             j += 1
             k += 1
 
-    return arr  # Asegúrate de devolver la lista ordenada
+    return arr  
