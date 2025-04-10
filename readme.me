@@ -1,4 +1,3 @@
-
 # Detector de Plagio
 
 Este proyecto implementa un sistema de detección de plagio utilizando tablas hash, filtros de Bloom y algoritmos de ordenamiento. Su propósito es identificar similitudes entre documentos de texto y generar visualizaciones sobre los niveles de similitud.
@@ -7,9 +6,28 @@ Este proyecto implementa un sistema de detección de plagio utilizando tablas ha
 
 El sistema está diseñado para detectar similitudes entre documentos a partir de los n-gramas generados de cada texto. Los documentos se procesan mediante un conjunto de algoritmos y estructuras de datos eficientes como filtros de Bloom, tablas hash y un algoritmo de ordenamiento (Merge Sort). Finalmente, se presentan los resultados visualmente en gráficos de barras que muestran el porcentaje de similitud entre cada par de documentos.
 
+#Proceso 
+
+Preparación del entorno: Clonación y configuración del proyecto.
+
+Preprocesamiento: Cargar y tokenizar documentos.
+
+Generación de n-gramas y almacenamiento: Utilizar estructuras de datos (BloomFilter, HashTable).
+
+Cálculo de similitudes: Calcular la similitud entre documentos usando el índice de Jaccard.
+
+Ordenación: Ordenar las similitudes con Merge Sort.
+
+Visualización: Generar y guardar gráficos de similitud.
+
+Ejecutar el sistema: Obtener resultados visuales.
+
+Pruebas unitarias: Verificar el sistema con pytest.
+
+Replicar resultados: Añadir documentos y ejecutar para replicar los resultados.
+
 ## Estructura del Proyecto
 
-```
 .
 ├── documentos/           # Archivos .txt a analizar
 ├── src/                  # Código fuente modular
@@ -24,23 +42,20 @@ El sistema está diseñado para detectar similitudes entre documentos a partir d
 
 1. Clona este repositorio en tu máquina local:
 
-```bash
 git clone <url-del-repositorio>
-```
+
 
 2. Instala las dependencias necesarias:
 
-```bash
 pip install -r requirements.txt
-```
+
 
 3. Coloca los archivos `.txt` que deseas analizar en la carpeta `documentos/`.
 
 4. Ejecuta el sistema desde la terminal:
 
-```bash
 python main.py
-```
+
 
 ## Ejemplo de Uso
 
@@ -87,31 +102,27 @@ Algoritmo de ordenamiento que permite organizar las similitudes de mayor a menor
 
 El sistema genera gráficos de barras que representan el porcentaje de similitud entre pares de documentos. Estos gráficos se guardan automáticamente con un timestamp en:
 
-```
 resultados/graficos/similitudes_<timestamp>.png
-```
 
 ## Comandos de Prueba
 
 Este proyecto incluye pruebas unitarias para garantizar la fiabilidad del sistema. Ejecuta las pruebas con los siguientes comandos:
 
-```bash
 python -m pytest test/test_bloom_filter.py
 python -m pytest test/test_hash_table.py
 python -m pytest test/test_sorting.py
 python -m pytest test/test_similitud.py
 python -m pytest test/test_preprocesamiento.py
-```
+
 
 ## Importaciones Usadas
 
-```python
 import os
 import re
 import matplotlib.pyplot as plt
 import numpy as np
 from datetime import datetime
-```
+
 
 ## Historial de Commits y Colaboración
 

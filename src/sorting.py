@@ -10,7 +10,7 @@ def merge_sort(arr, key=lambda x: x, reverse=False):
         i = j = k = 0
         while i < len(left_half) and j < len(right_half):
             if (key(left_half[i]) < key(right_half[j]) and not reverse) or \
-               (key(left_half[i]) > key(right_half[j]) and reverse):
+                (key(left_half[i]) > key(right_half[j]) and reverse):
                 arr[k] = left_half[i]
                 i += 1
             else:

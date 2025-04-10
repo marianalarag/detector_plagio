@@ -22,6 +22,13 @@ def generar_graficos(similitudes, max_docs=5):
             matriz[i][j] = score * 100  # Convertir a porcentaje
             matriz[j][i] = score * 100  # Simetría
 
+    # Ordenar por promedio de similitud de mayor a menor
+    promedios = matriz.mean(axis=1)
+    indices_ordenados = np.argsort(-promedios)  # Negativo para orden descendente
+
+    matriz_ordenada = matriz[indices_ordenados, :][:, indices_ordenados]
+    documentos_ordenados = [documentos[i] for i in indices_ordenados]
+
     # Crear el directorio si no existe
     os.makedirs('resultados/graficos', exist_ok=True)
 
@@ -30,18 +37,18 @@ def generar_graficos(similitudes, max_docs=5):
 
     # Generar heatmap con anotaciones
     ax = sns.heatmap(
-        matriz,
-        xticklabels=documentos,
-        yticklabels=documentos,
+        matriz_ordenada,
+        xticklabels=documentos_ordenados,
+        yticklabels=documentos_ordenados,
         annot=True,
         fmt=".1f",
-        cmap="YlGnBu",  # Colores bonitos y claros
+        cmap="YlGnBu",
         cbar_kws={'label': 'Similitud (%)'},
         linewidths=0.5,
         linecolor='gray'
     )
 
-    plt.title("Mapa de Calor de Similitud entre Documentos", fontsize=14)
+    plt.title("Mapa de Calor de Similitud entre Documentos (Ordenado)", fontsize=14)
     plt.xticks(rotation=45, ha='right', fontsize=10)
     plt.yticks(rotation=0, fontsize=10)
 
@@ -51,6 +58,6 @@ def generar_graficos(similitudes, max_docs=5):
     # Guardar con timestamp
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f'resultados/graficos/heatmap_similitud_{timestamp}.png'
-    plt
-
-
+    plt.savefig(filename, dpi=300, facecolor='white')
+    plt.close()
+    print(f"[✔] Imagen guardada en: {filename}")
